@@ -199,7 +199,7 @@ class PacketUtils:
             ack = self.send_pkt(flags = "A", sport = syn[TCP].sport, dport = synack[TCP].sport, seq = synack[TCP].ack, ack = synack[TCP].seq + 1)
             #now send the payload 3 times
             for j in range(3):
-                self.send_pkt(payload = triggerfetch, ttl = i, flags = "PA", sport = syn[TCP].sport, dport = synack[TCP].sport, seq = ack[TCP].seq, ack = ack[TCP].ack)
+                self.send_pkt(ttl = i, flags = "A", sport = syn[TCP].sport, dport = synack[TCP].sport, seq = ack[TCP].seq, ack = ack[TCP].ack)
             #now check if there is a reset in the queue, get the ip of the hop, as well as empty the queue for the next step
             hasRST = False
             hopIP = None
