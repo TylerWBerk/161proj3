@@ -172,7 +172,7 @@ class PacketUtils:
         #now send payload
         payload = self.send_pkt(payload = triggerfetch, flags = "P", sport = rsport, dport = synack[TCP].sport, seq = ack[TCP].seq, ack = ack[TCP].ack)
         #now check what you receive in response, once queue is emptied, if resets missing, "LIVE", if they are there, "FIREWALL
-        while:
+        while True:
             pckt = self.get_pkt()
             if(pckt == None):
                 return "LIVE"
