@@ -192,9 +192,9 @@ class PacketUtils:
             #at each hop, handshake
             rsport = random.randint(2000, 30000)
             syn = self.send_pkt(flags = "S", sport = rsport)
-            synack = self.get_pkt(timeout = 5)
+            synack = self.get_pkt(timeout = 2)
             while(synack != None and synack[TCP].sport != syn[TCP].dport):
-                synack = self.get_pkt(timeout = 5)
+                synack = self.get_pkt(timeout = 2)
             if(synack == None):
                 output1.append(None)
                 output2.append(False)
@@ -210,12 +210,13 @@ class PacketUtils:
             hopIP = None
             wasRST = False
             while(True):
-                pckt = self.get_pkt(timeout = 5)
+                pckt = self.get_pkt(timeout = 2)
                 if(pckt == None):
                     break
                 if(isRST(pckt) and pckt[TCP].dport == rsport):
                     hasRST = True
                     wasRST = True
+                    hopIP = pckt[IP].src
                 if(isTimeExceeded(pckt) and syn[IP].dst == pckt[IP].src and not wasRST):
                     hopIP = pckt[IP].src
             output1.append(hopIP)
