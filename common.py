@@ -192,21 +192,19 @@ class PacketUtils:
             #at each hop, handshake
             rsport = random.randint(2000, 30000)
             syn = self.send_pkt(flags = "S", sport = rsport)
-
             synack = self.get_pkt(timeout = 2)
+            while(synack != None and synack[TCP].sport != rsport):
+                synack = self.get_pkt(timeout = 2)
             if(synack == None):
                 output1.append(None)
                 output2.append(False)
                 continue
             print(isICMP(synack))
-            if(isTimeExceeded(synack)):
-                output1.append(None)
-                output2.append(False)
-                continue
+
             ack = self.send_pkt(flags = "A", sport = rsport, dport = synack[TCP].sport, seq = synack[TCP].ack, ack = synack[TCP].seq + 1)
             #now send the payload 3 times
             for j in range(3):
-                self.send_pkt(ttl = i, flags = "A", sport = syn[TCP].sport, dport = synack[TCP].sport, seq = ack[TCP].seq, ack = ack[TCP].ack)
+                self.send_pkt(ttl = i + 1, flags = "PA", sport = syn[TCP].sport, dport = synack[TCP].sport, seq = ack[TCP].seq, ack = ack[TCP].ack)
             #now check if there is a reset in the queue, get the ip of the hop, as well as empty the queue for the next step
             hasRST = False
             hopIP = None
