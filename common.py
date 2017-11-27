@@ -210,14 +210,14 @@ class PacketUtils:
             hopIP = None
             wasRST = False
             while(True):
-                pckt = self.get_pkt(timeout = 2)
+                pckt = self.get_pkt(timeout = 5)
                 if(pckt == None):
                     break
                 if(isRST(pckt) and pckt[TCP].dport == rsport):
                     hasRST = True
                     wasRST = True
                     hopIP = pckt[IP].src
-                if(isTimeExceeded(pckt) and (not wasRST)):
+                if(isTimeExceeded(pckt)):
                     hopIP = pckt[IP].src
             output1.append(hopIP)
             output2.append(hasRST)
