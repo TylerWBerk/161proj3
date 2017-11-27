@@ -32,8 +32,8 @@ def main(pcap_file):
 
     packets = rdpcap(pcap_file)
     for packet in packets:
-		if not TCP in packet: 
-			continue
+        if not TCP in packet: 
+            continue
         if packet[TCP].flags & RST:
             num_rst += 1
         if packet[TCP].dport == 80 or packet[TCP].sport == 80:
