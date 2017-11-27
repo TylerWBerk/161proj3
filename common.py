@@ -205,9 +205,9 @@ class PacketUtils:
             hopIP = None
             while(not self.packetQueue.empty()):
                 pckt = self.get_pkt()
-                if(pckt.isRST()):
+                if(isRST(pckt)):
                     hasRST = True
-                if(pckt.isICMP()):
+                if(isICMP(pckt)):
                     hopIP = pckt[IP].src
             output1.append(hopIP)
             output2.append(hasRST)
