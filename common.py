@@ -211,7 +211,7 @@ class PacketUtils:
                 pckt = self.get_pkt(timeout = 2)
                 if(isRST(pckt)):
                     hasRST = True
-                if(isTimeExceeded(pckt):
+                if(isTimeExceeded(pckt)):
                     hopIP = pckt[IP].src
             output1.append(hopIP)
             output2.append(hasRST)
