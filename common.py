@@ -191,11 +191,13 @@ class PacketUtils:
         for i in range(hops):
             #at each hop, handshake
             syn = self.send_pkt(flags = "S")
+
             synack = self.get_pkt(timeout = 2)
             if(synack == None):
                 output1.append(None)
                 output2.append(False)
                 continue
+            print(synack)
             ack = self.send_pkt(flags = "A", sport = syn[TCP].sport, dport = synack[TCP].sport, seq = synack[TCP].ack, ack = synack[TCP].seq + 1)
             #now send the payload 3 times
             for j in range(3):
