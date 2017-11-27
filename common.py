@@ -208,13 +208,15 @@ class PacketUtils:
             #now check if there is a reset in the queue, get the ip of the hop, as well as empty the queue for the next step
             hasRST = False
             hopIP = None
+            wasRST = False
             while(True):
                 pckt = self.get_pkt(timeout = 5)
                 if(pckt == None):
                     break
-                if(isRST(pckt) && pckt[TCP].dport == rsport):
+                if(isRST(pckt) and pckt[TCP].dport == rsport):
                     hasRST = True
-                if(isTimeExceeded(pckt) && pckt[TCP].dport == rsport):
+                    wasRST = True
+                if(isTimeExceeded(pckt) and syn[IP].dst == pckt[IP].src and not wasRST):
                     hopIP = pckt[IP].src
             output1.append(hopIP)
             output2.append(hasRST)
