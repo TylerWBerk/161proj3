@@ -193,13 +193,13 @@ class PacketUtils:
             rsport = random.randint(2000, 30000)
             syn = self.send_pkt(flags = "S", sport = rsport)
 
-            synack = self.get_pkt(timeout = 2)
+            synack = self.get_pkt(timeout = 1)
             if(synack == None):
                 output1.append(None)
                 output2.append(False)
                 continue
             print(isICMP(synack))
-            print(isRST(synack))
+
             ack = self.send_pkt(flags = "A", sport = rsport, dport = synack[TCP].sport, seq = synack[TCP].ack, ack = synack[TCP].seq + 1)
             #now send the payload 3 times
             for j in range(3):
@@ -211,7 +211,7 @@ class PacketUtils:
                 pckt = self.get_pkt(timeout = 2)
                 if(isRST(pckt)):
                     hasRST = True
-                if(isICMP(pckt)):
+                if(isTimeExceeded(pckt):
                     hopIP = pckt[IP].src
             output1.append(hopIP)
             output2.append(hasRST)
