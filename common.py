@@ -191,7 +191,7 @@ class PacketUtils:
         for i in range(hops):
             #at each hop, handshake
             syn = self.send_pkt(flags = "S")
-            synack = self.get_pkt()
+            synack = self.get_pkt(timeout = 2)
             if(synack == None):
                 output1.append(None)
                 output2.append(False)
@@ -204,7 +204,7 @@ class PacketUtils:
             hasRST = False
             hopIP = None
             while(not self.packetQueue.empty()):
-                pckt = self.get_pkt()
+                pckt = self.get_pkt(timeout = 2)
                 if(isRST(pckt)):
                     hasRST = True
                 if(isICMP(pckt)):
