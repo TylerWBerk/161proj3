@@ -14,7 +14,7 @@ maxhop = 25
 # A request that will trigger the great firewall but will NOT cause
 # the web server to process the connection.  You probably want it here
 
-triggerfetch = """YOU MIGHT WANT SOMETHING HERE"""
+triggerfetch = """GET / HTTP/1.1\r\nHost: www.miit.gov.cn\r\n\r\n"""
 
 # A couple useful functions that take scapy packets
 def isRST(p):
@@ -158,7 +158,26 @@ class PacketUtils:
     # "FIREWALL" if it is behind the Great Firewall
     def ping(self, target):
         # self.send_msg([triggerfetch], dst=target, syn=True)
-        return "NEED TO IMPLEMENT"
+
+        #choose random source port
+        rsport = random.randint(2000, 30000)
+        #send syn packet
+        self.send_pkt(flags = "S", sport = rsport)
+        #check if received a response
+        synack = self.get_pkt()
+        if(synack == None):
+            return "DEAD"
+        #now u have received a response, send ack
+        ack = self.send_pkt(flags = "A", sport = rsport, dport = synack[TCP].sport, seq = synack[TCP].ack, ack = synack[TCP].seq + 1)
+        #now send payload
+        payload = self.send_pkt(payload = triggerfetch, flags = "P", sport = rsport, dport = synack[TCP].sport, seq = ack[TCP].seq, ack = ack[TCP].ack)
+        #now check what you receive in response, once queue is emptied, if resets missing, "LIVE", if they are there, "FIREWALL
+        while:
+            pckt = self.get_pkt()
+            if(pckt == None):
+                return "LIVE"
+            if(pckt.isRST):
+                return "FIREWALL"
 
     # Format is
     # ([], [])
