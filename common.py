@@ -194,7 +194,7 @@ class PacketUtils:
             rsport = random.randint(2000, 30000)
             syn = self.send_pkt(flags = "S", sport = rsport)
 
-            synack = self.get_pkt()
+            synack = self.get_pkt(timeout = 2)
             if(synack == None):
                 output1.append(None)
                 output2.append(False)
