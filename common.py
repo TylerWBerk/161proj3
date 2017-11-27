@@ -217,7 +217,7 @@ class PacketUtils:
                     hasRST = True
                     wasRST = True
                     hopIP = pckt[IP].src
-                if(isTimeExceeded(pckt) and syn[IP].dst == pckt[IP].src and not wasRST):
+                if(isTimeExceeded(pckt) and (not wasRST)):
                     hopIP = pckt[IP].src
             output1.append(hopIP)
             output2.append(hasRST)
