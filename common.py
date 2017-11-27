@@ -198,9 +198,8 @@ class PacketUtils:
                 output1.append(None)
                 output2.append(False)
                 continue
-            if(isRST(synack)):
-                output1.append(None)
-                output2.append(True)
+            print(isICMP(synack))
+            print(isRST(synack))
             ack = self.send_pkt(flags = "A", sport = rsport, dport = synack[TCP].sport, seq = synack[TCP].ack, ack = synack[TCP].seq + 1)
             #now send the payload 3 times
             for j in range(3):
