@@ -212,9 +212,9 @@ class PacketUtils:
                 pckt = self.get_pkt(timeout = 5)
                 if(pckt == None):
                     break
-                if(isRST(pckt)):
+                if(isRST(pckt) && pckt[TCP].dport == rsport):
                     hasRST = True
-                if(isTimeExceeded(pckt)):
+                if(isTimeExceeded(pckt) && pckt[TCP].dport == rsport):
                     hopIP = pckt[IP].src
             output1.append(hopIP)
             output2.append(hasRST)
