@@ -176,7 +176,7 @@ class PacketUtils:
             pckt = self.get_pkt()
             if(pckt == None):
                 return "LIVE"
-            if(pckt.isRST):
+            if(isRST(pckt)):
                 return "FIREWALL"
 
     # Format is
