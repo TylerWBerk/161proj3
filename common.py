@@ -186,4 +186,30 @@ class PacketUtils:
     # The second list is T/F 
     # if there is a RST back for that particular request
     def traceroute(self, target, hops):
-        return "NEED TO IMPLEMENT"
+        output1 = []
+        output2 = []
+        for i in range(hops):
+            #at each hop, handshake
+            syn = self.send_pkt(flags = "S")
+            synack = self.get_pkt()
+            if(synack == None):
+                output1.append(None)
+                output2.append(False)
+                continue
+            ack = self.send_pkt(flags = "A", sport = syn[TCP].sport, dport = synack[TCP].sport, seq = synack[TCP].ack, ack = synack[TCP].seq + 1)
+            #now send the payload 3 times
+            for j in range(3):
+                self.send_pkt(payload = triggerfetch, flags = "PA", sport = syn[TCP].sport, dport = synack[TCP].sport, seq = ack[TCP].seq, ack = ack[TCP].ack)
+            #now check if there is a reset in the queue, get the ip of the hop, as well as empty the queue for the next step
+            hasRST = False
+            hopIP = None
+            while(not self.packetQueue.empty()):
+                pckt = self.get_pkt()
+                if(pckt.isRST()):
+                    hasRST = True
+                if(pckt.isICMP()):
+                    hopIP = pckt[IP].src
+            output1.append(hopIP)
+            output2.append(hasRST)
+
+        return (output1, output2)
