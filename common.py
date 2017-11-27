@@ -189,6 +189,7 @@ class PacketUtils:
         output1 = []
         output2 = []
         for i in range(hops):
+            self.packetQueue = Queue.Queue(100000)
             #at each hop, handshake
             rsport = random.randint(2000, 30000)
             syn = self.send_pkt(flags = "S", sport = rsport)
