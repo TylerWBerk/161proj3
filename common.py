@@ -151,7 +151,38 @@ class PacketUtils:
     # ttl is a ttl which triggers the Great Firewall but is before the
     # server itself (from a previous traceroute incantation
     def evade(self, target, msg, ttl):
-        return "NEED TO IMPLEMENT"
+        #similar to slide 15 of lecture 18, will split message into single characters
+        #and then insert fake characters with the shorter ttl between each of them, send all of these packets
+        #then get the payload from the server
+        chars = list(msg)
+        fakes = list("memes")
+        rsport = random.randint(2000, 30000)
+        syn = self.send_pkt(flags = "S", sport = rsport)
+        synack = self.get_pkt()
+        while(synack != None and synack[TCP].sport != syn[TCP].dport):
+            synack = self.get_pkt()
+        #now that you have synackd, ack and then send long payload split into 1 byte packets
+        ack = self.send_pkt(flags = "A", sport = rsport, dport = synack[TCP].sport, seq = synack[TCP].ack, ack = synack[TCP].seq + 1)
+        #now loop through chars
+        for i in range(len(size)):
+            newReal = self.send_pkt(payload = chars[i], flags = "P", sport = rsport, dport = synack[TCP].sport, seq = ack[TCP].seq + i, ack = ack[TCP].ack+ i)
+            newFake = self.send_pkt(payload = fakes[i%len(memes)], ttl = ttl, flags = "P", sport = rsport,
+                                    dport = synack[TCP].sport, seq = ack[TCP].seq + i, ack = ack[TCP].ack + i)
+
+        #now that you have looped through, check for packet for 5 seconds
+        timeout = time.time() + 5
+        packetList = []
+        payload = []
+        while 1:
+            rp = self.get_pkt(max(0, timeout - time.time()))
+            if not rp:
+                break
+            packetList.append(rp)
+        for x in packetList:
+            if 'Raw' in rp:
+                payload.append(rp['Raw'].load)
+        return ''.join(payload)
+
         
     # Returns "DEAD" if server isn't alive,
     # "LIVE" if teh server is alive,
@@ -192,9 +223,9 @@ class PacketUtils:
             #at each hop, handshake
             rsport = random.randint(2000, 30000)
             syn = self.send_pkt(flags = "S", sport = rsport)
-            synack = self.get_pkt(timeout = 2)
+            synack = self.get_pkt()
             while(synack != None and synack[TCP].sport != syn[TCP].dport):
-                synack = self.get_pkt(timeout = 2)
+                synack = self.get_pkt()
             if(synack == None):
                 output1.append(None)
                 output2.append(False)
@@ -210,7 +241,7 @@ class PacketUtils:
             hopIP = None
             wasRST = False
             while(True):
-                pckt = self.get_pkt(timeout = 5)
+                pckt = self.get_pkt()
                 if(pckt == None):
                     break
                 if(isRST(pckt) and pckt[TCP].dport == rsport):
