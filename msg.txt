@@ -1,5 +1,1 @@
-Get / HTTP/1.1
-host: www.inst.eecs.berkeley.edu
-connection: close
-
-
+Get / HTTP/1.1\r\nhost: www.inst.eecs.berkeley.edu\r\nconnection: close\r\n\r\n
