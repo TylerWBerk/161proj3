@@ -178,6 +178,7 @@ class PacketUtils:
             if not rp:
                 break
             packetList.append(rp)
+        print(len(packetList))
         for x in packetList:
             if 'Raw' in x:
                 payload.append(x['Raw'].load)
