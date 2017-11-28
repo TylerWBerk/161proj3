@@ -1,1 +1,4 @@
-Get / HTTP/1.1\r\nhost: www.inst.eecs.berkeley.edu\r\nconnection: close\r\n\r\n
+Get /search?q=falun+gong HTTP/1.1
+host: www.inst.eecs.berkeley.edu
+connection: close
+
