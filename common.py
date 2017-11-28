@@ -181,7 +181,6 @@ class PacketUtils:
                 packetList.append(rp)
         for x in packetList:
             if 'Raw' in x:
-                print(x['Raw'].load)
                 payload.append(x['Raw'].load)
         return ''.join(payload)
 
@@ -232,7 +231,6 @@ class PacketUtils:
                 output1.append(None)
                 output2.append(False)
                 continue
-            print(isICMP(synack))
 
             ack = self.send_pkt(flags = "A", sport = rsport, dport = synack[TCP].sport, seq = synack[TCP].ack, ack = synack[TCP].seq + 1)
             #now send the payload 3 times
