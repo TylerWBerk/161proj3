@@ -180,7 +180,9 @@ class PacketUtils:
             packetList.append(rp)
         print(len(packetList))
         for x in packetList:
+
             if 'Raw' in x:
+                print(x['Raw'].load)
                 payload.append(x['Raw'].load)
         return ''.join(payload)
 
