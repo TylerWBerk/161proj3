@@ -1,4 +1,4 @@
-GET / HTTP/1.1
+GET /search?q=falun+gong HTTP/1.1
 host: www.google.com
 connection: close
 
