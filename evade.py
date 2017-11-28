@@ -5,7 +5,7 @@ import common
 
 if __name__ == '__main__':
     # www.miit.gov.cn                                                           
-    target = "216.58.216.4"
+    target = "128.32.42.199"
     msg = open("msg.txt").read()
     
     myip = None
