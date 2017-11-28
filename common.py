@@ -179,11 +179,8 @@ class PacketUtils:
                 break
             if(not isICMP(rp)):
                 packetList.append(rp)
-        print(len(packetList))
         for x in packetList:
-            print(isICMP(x))
             if 'Raw' in x:
-                print(x['Raw'].load)
                 payload.append(x['Raw'].load)
         return ''.join(payload)
 
