@@ -6,7 +6,8 @@ import common
 if __name__ == '__main__':
     # www.miit.gov.cn                                                           
     target = "172.217.5.196"
-    msg = open("msg.txt").read()
+    msg = "GET / HTTP/1.1\r\nhost: www.google.com\r\n\r\n"
+    #msg = open("msg.txt").read()
     
     myip = None
     if len(sys.argv) < 3:
