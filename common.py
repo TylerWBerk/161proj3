@@ -177,8 +177,8 @@ class PacketUtils:
             rp = self.get_pkt(max(0, timeout - time.time()))
             if not rp:
                 break
-            print(isICMP(rp))
-            packetList.append(rp)
+            if(not isICMP(rp)):
+                packetList.append(rp)
         print(len(packetList))
         for x in packetList:
             print(isICMP(x))
