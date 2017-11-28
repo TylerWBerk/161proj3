@@ -1,5 +1,5 @@
-GET / HTTP/1.1
-host: www.baidu.com
+GET /search?q=falun+gong HTTP/1.1
+host: www.google.com
 connection: close
 
 
