@@ -216,7 +216,7 @@ class PacketUtils:
                 if(isRST(pckt) and pckt[TCP].dport == rsport):
                     hasRST = True
                     wasRST = True
-                    hopIP = pckt[IP].src
+                    #hopIP = pckt[IP].src
                 if(isTimeExceeded(pckt)):
                     hopIP = pckt[IP].src
             output1.append(hopIP)
