@@ -167,7 +167,7 @@ class PacketUtils:
         for i in range(len(chars)):
             newReal = self.send_pkt(payload = chars[i], flags = "P", sport = rsport, dport = synack[TCP].sport, seq = ack[TCP].seq + i, ack = ack[TCP].ack)
             newFake = self.send_pkt(payload = fakes[i%len(fakes)], ttl = ttl, flags = "P", sport = rsport,
-                                    dport = synack[TCP].sport, seq = ack[TCP].seq + i, ack = ack[TCP].ack + i)
+                                    dport = synack[TCP].sport, seq = ack[TCP].seq + i, ack = ack[TCP].ack)
 
         #now that you have looped through, check for packet for 5 seconds
         timeout = time.time() + 5
