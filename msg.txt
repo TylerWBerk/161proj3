@@ -1,3 +1,4 @@
 GET / HTTP/1.1
-host: www.google.com
+Host: www-inst.eecs.berkeley.edu
+connection: close
 
