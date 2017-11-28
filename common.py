@@ -179,7 +179,7 @@ class PacketUtils:
                 break
             packetList.append(rp)
         for x in packetList:
-            if 'Raw' in rp:
+            if 'Raw' in x:
                 payload.append(x['Raw'].load)
         return ''.join(payload)
 
