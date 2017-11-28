@@ -164,7 +164,7 @@ class PacketUtils:
         #now that you have synackd, ack and then send long payload split into 1 byte packets
         ack = self.send_pkt(flags = "A", sport = rsport, dport = synack[TCP].sport, seq = synack[TCP].ack, ack = synack[TCP].seq + 1)
         #now loop through chars
-        for i in range(len(size)):
+        for i in range(len(chars)):
             newReal = self.send_pkt(payload = chars[i], flags = "P", sport = rsport, dport = synack[TCP].sport, seq = ack[TCP].seq + i, ack = ack[TCP].ack+ i)
             newFake = self.send_pkt(payload = fakes[i%len(memes)], ttl = ttl, flags = "P", sport = rsport,
                                     dport = synack[TCP].sport, seq = ack[TCP].seq + i, ack = ack[TCP].ack + i)
